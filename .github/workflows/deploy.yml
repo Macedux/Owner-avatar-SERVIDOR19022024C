@@ -51,3 +51,4 @@ jobs:
 
           # Reiniciar Apache si es necesario
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "sudo systemctl restart apache2"
+          # Reiniciar Apache si es necesario
