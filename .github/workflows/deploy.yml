@@ -28,15 +28,13 @@ jobs:
           php-version: '8.3'
       - name: Install dependencies
         run: composer install 
+
       - name: Deploy to server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.REMOTE_KEY }}
-          HOST: ${{ secrets.REMOTE_HOST }}
-          USERNAME: ${{ secrets.REMOTE_USER }}
-
+        env: 
+          SSH_PRIVATE_KEY: ${{ secrets.REMOTE_KEY }} 
+          HOST: ${{ secrets.REMOTE_HOST }} 
+          USERNAME: ${{ secrets.REMOTE_USER }} 
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-
-
         run: |
           mkdir -p ~/.ssh 
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa 
@@ -49,10 +47,8 @@ jobs:
           # Sincronizar archivos
           rsync -avz --delete --exclude 'vendor' --exclude '.git' . $USERNAME@$HOST:$DEPLOY_PATH 
 
-          # Ejecutar Composer en el servidor
-          ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && composer install --no-dev --optimize-autoloader" 
+          # Cambiar el directorio al de despliegue
+          ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "cd $DEPLOY_PATH && docker-compose up --build -d"
 
           # Reiniciar Apache si es necesario
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "sudo systemctl restart apache2"
-
-          # Reiniciar Apache si es necesario
