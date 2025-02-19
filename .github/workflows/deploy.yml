@@ -33,7 +33,11 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.REMOTE_KEY }}
           HOST: ${{ secrets.REMOTE_HOST }}
           USERNAME: ${{ secrets.REMOTE_USER }}
+<<<<<<< HEAD
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+=======
+          DEPLOY_PATH: ${{ secrets.NEWDEPLOY_PATH }}
+>>>>>>> d4d6502f754a6da77f70b6a57607b9327c2c49c3
         run: |
           mkdir -p ~/.ssh 
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa 
@@ -51,4 +55,7 @@ jobs:
 
           # Reiniciar Apache si es necesario
           ssh -o StrictHostKeyChecking=no $USERNAME@$HOST "sudo systemctl restart apache2"
+<<<<<<< HEAD
           # Reiniciar Apache si es necesario
+=======
+>>>>>>> d4d6502f754a6da77f70b6a57607b9327c2c49c3
